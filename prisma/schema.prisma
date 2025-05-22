@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String @id @default(cuid())
+  username String @unique
+  password String
+
+  name        String
+  email       String
+  phoneNumber String
+  profilePicture String
+
+  Booking Booking[]
+
+  Review Review[]
+}
+
+model Booking {
+  id             String   @id @default(cuid())
+  userId         String // gekoppeld aan USER - ID
+  propertyId     String // gekoppeld aan PROPERTY - ID
+  checkinDate    DateTime
+  checkoutDate   DateTime
+  numberOfGuests Int
+  totalPrice     Int
+  bookingStatus  String
+
+  user     User     @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
+}
+
+model Review {
+  id         String @id @default(cuid())
+  userId     String // gekoppeld aan USER - ID 
+  propertyId String // gekoppeld aan PROPERTY - ID
+  rating     Int
+  comment    String
+
+  user     User     @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
+}
+
+model Property {
+  id            String  @id @default(cuid())
+  hostId        String // gekoppeld aan HOST - ID
+  title         String
+  description   String
+  location      String
+  pricePerNight Decimal @db.Decimal(10, 2)
+  bedroomCount  Int
+  bathRoomCount Int
+  maxGuestCount Int
+  rating        Int
+
+  amenities Amenity[]
+  reviews   Review[]
+  bookings  Booking[]
+
+  host Host @relation(fields: [hostId], references: [id])
+
+  @@index([hostId])
+}
+
+model Amenity {
+  id         String     @id @default(cuid())
+  name       String
+
+  property Property[]
+}
+
+model Host {
+  id          String @id @default(cuid())
+  username    String @unique
+  password    String
+  name        String
+  email       String
+  phoneNumber String
+  profilePicture String
+  aboutMe     String
+
+  listings Property[]
+}
