@@ -18,7 +18,7 @@ import morgan from "morgan";
 const app = express();
 
 Sentry.init({
-  dsn: "https://b73d44239921167b0631928e1f0c734b@o4509134653620224.ingest.de.sentry.io/4509360890642512",
+  dsn: process.env.SENTRY_DSN,
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
