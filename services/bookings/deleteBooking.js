@@ -9,10 +9,9 @@ const deleteBooking = async (id) => {
     return deletedBooking;
   } catch (error) {
     if (error.code === "P2025") {
-      // booking niet gevonden
       return null;
     }
-    throw error; // andere fouten gewoon doorgeven
+    throw error;
   }
 };
 
