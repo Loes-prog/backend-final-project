@@ -26,7 +26,7 @@ router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
     const property = await getPropertyById(id);
     if (!property) {
-      res.status(404).json(`No properties found with id ${id}.`);
+      res.status(404).json({ message: `No properties found with id ${id}.` });
     } else {
       res.status(200).json(property);
     }
