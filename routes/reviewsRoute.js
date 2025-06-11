@@ -42,6 +42,11 @@ router.post("/", authMiddleware, async (req, res, next) => {
     const newReview = await createReview(userId, propertyId, rating, comment);
     res.status(201).json(newReview);
   } catch (error) {
+    if (error.message.startsWith("400 Bad Request")) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    console.error("Error creating review:", error);
     next(error);
   }
 });

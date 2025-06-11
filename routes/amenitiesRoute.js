@@ -43,6 +43,11 @@ router.post("/", authMiddleware, async (req, res, next) => {
     const newAmenity = await createAmenity(name);
     res.status(201).json(newAmenity);
   } catch (error) {
+    if (error.message.startsWith("400 Bad Request")) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    console.error("Error creating review:", error);
     next(error);
   }
 });

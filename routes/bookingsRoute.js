@@ -59,6 +59,11 @@ router.post("/", authMiddleware, async (req, res, next) => {
     });
     res.status(201).json(newBooking);
   } catch (error) {
+    if (error.message.startsWith("400 Bad Request")) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    console.error("Error creating review:", error);
     next(error);
   }
 });
