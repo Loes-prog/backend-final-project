@@ -8,6 +8,13 @@ const getHosts = async (name) => {
         contains: name,
       },
     },
+    select: {
+      username: true,
+      email: true,
+      phoneNumber: true,
+      profilePicture: true,
+      aboutMe: true,
+    },
   });
   return hosts;
 };

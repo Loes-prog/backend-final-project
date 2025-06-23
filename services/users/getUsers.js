@@ -11,6 +11,10 @@ const getUsers = async (username, email) => {
         contains: email,
       },
     },
+    select: {
+      username: true,
+      email: true,
+    },
   });
   return users;
 };
