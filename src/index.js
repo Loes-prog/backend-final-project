@@ -2,7 +2,6 @@ import express from "express";
 import "dotenv/config";
 
 import propertiesRoute from "../routes/propertiesRoute.js";
-import amenitiesRoute from "../routes/amenitiesRoute.js";
 import hostsRoute from "../routes/hostsRoute.js";
 import bookingsRoute from "../routes/bookingsRoute.js";
 import reviewsRoute from "../routes/reviewsRoute.js";
@@ -46,7 +45,6 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 app.use("/properties", propertiesRoute);
-app.use("/amenities", amenitiesRoute);
 app.use("/bookings", bookingsRoute);
 app.use("/reviews", reviewsRoute);
 app.use("/users", usersRoute);

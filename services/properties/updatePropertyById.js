@@ -10,8 +10,7 @@ const updatePropertyById = async (
   bathRoomCount,
   maxGuestCount,
   hostId,
-  rating,
-  amenityIds
+  rating
 ) => {
   try {
     const prisma = new PrismaClient();
@@ -29,9 +28,6 @@ const updatePropertyById = async (
           connect: { id: hostId },
         },
         rating,
-        amenities: {
-          set: amenityIds.map((id) => ({ id })),
-        },
       },
     });
     return result;

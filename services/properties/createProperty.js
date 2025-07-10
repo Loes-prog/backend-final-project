@@ -10,7 +10,6 @@ const createProperty = async ({
   maxGuestCount,
   hostId,
   rating,
-  amenityIds,
 }) => {
   const prisma = new PrismaClient();
   return prisma.property.create({
@@ -26,9 +25,6 @@ const createProperty = async ({
         connect: { id: hostId },
       },
       rating,
-      amenities: {
-        connect: amenityIds.map((id) => ({ id })),
-      },
     },
   });
 };

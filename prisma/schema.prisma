@@ -64,18 +64,11 @@ model Property {
   maxGuestCount Int
   rating        Int
 
-  amenities   Amenity[]
   reviews   Review[]
   bookings  Booking[]
   host      Host              @relation(fields: [hostId], references: [id], onDelete: Cascade)
 
   @@index([hostId])
-}
-
-model Amenity {
-  id       String            @id @default(uuid())
-  name     String
-  properties Property[]
 }
 
 model Host {

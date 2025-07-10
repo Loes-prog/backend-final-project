@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import amenitiesData from "../src/data/amenities.json" with { type: "json" };
+
 import bookingsData from "../src/data/bookings.json" with { type: "json" };
 import hostsData from "../src/data/hosts.json" with { type: "json" };
 import propertiesData from "../src/data/properties.json" with { type: "json" };
@@ -9,7 +9,6 @@ import usersData from "../src/data/users.json" with { type: "json" };
 const prisma = new PrismaClient({ log: ["query", "info", "warn", "error"] });
 
 async function main() {
-  const { amenities } = amenitiesData;
   const { bookings } = bookingsData;
   const { hosts } = hostsData;
   const { properties } = propertiesData;
@@ -32,13 +31,6 @@ async function main() {
     });
   }
 
-    for (let amenity of amenities) {
-    await prisma.amenity.upsert({
-      where: { id: amenity.id },
-      update: {},
-      create: amenity,
-    });
-  }
 
    for (const property of properties) {
     await prisma.property.upsert({
@@ -54,15 +46,10 @@ async function main() {
         bathRoomCount: property.bathRoomCount,
         maxGuestCount: property.maxGuestCount,
         rating: property.rating,
-
-        amenities: {
-          connect: property.amenityIds.map((id) => ({ id })),
-        },
         hostId: property.hostId,
-      },
-    });
-  }
-
+    },
+  });
+}
   for (let booking of bookings) {
     await prisma.booking.upsert({
       where: { id: booking.id },

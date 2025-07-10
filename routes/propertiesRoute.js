@@ -11,8 +11,8 @@ const router = express.Router();
 // GET all properties
 router.get("/", async (req, res, next) => {
   try {
-    const { location, pricePerNight, amenities } = req.query;
-    const properties = await getProperties(location, pricePerNight, amenities);
+    const { location, pricePerNight } = req.query;
+    const properties = await getProperties(location, pricePerNight);
     res.status(200).json(properties);
   } catch (error) {
     next(error);
@@ -49,7 +49,6 @@ router.post("/", authMiddleware, async (req, res, next) => {
       maxGuestCount,
       hostId,
       rating,
-      amenityIds,
     } = req.body;
     const newProperty = await createProperty({
       title,
@@ -61,7 +60,6 @@ router.post("/", authMiddleware, async (req, res, next) => {
       maxGuestCount,
       hostId,
       rating,
-      amenityIds,
     });
     res.status(201).json(newProperty);
   } catch (error) {
@@ -89,7 +87,6 @@ router.put("/:id", authMiddleware, async (req, res, next) => {
       maxGuestCount,
       hostId,
       rating,
-      amenityIds,
     } = req.body;
     const updatedProperty = await updatePropertyById(
       id,
@@ -101,8 +98,7 @@ router.put("/:id", authMiddleware, async (req, res, next) => {
       bathRoomCount,
       maxGuestCount,
       hostId,
-      rating,
-      amenityIds
+      rating
     );
     if (!updatedProperty) {
       res.status(404).json(`No properties found with id ${id}.`);
